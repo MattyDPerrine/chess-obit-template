@@ -1,1 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess OBIT Game Review Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --chess-dark: #2c1810;
+            --chess-light: #f0d9b5;
+            --chess-dark-square: #b58863;
+            --chess-light-square: #f0d9b5;
+            --chess-gold: #d4af37;
+            --chess-silver: #c0c0c0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+        }
+        
+        .chess-board-bg {
+            background-image: 
+                linear-gradient(45deg, var(--chess-dark-square) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--chess-dark-square) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--chess-dark-square) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--chess-dark-square) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            opacity: 0.1;
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .chess-piece {
+            font-size: 2rem;
+            color: var(--chess-gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--chess-gold);
+        }
+        
+        .gold-accent {
+            color: var(--chess-gold);
+        }
+        
+        .input-field {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e5e5e5;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--chess-gold);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--chess-gold) 0%, #b8941f 100%);
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #b8941f 0%, var(--chess-gold) 100%);
+            transform: translateY(-1px);
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-content.active {
+            max-height: 1000px;
+        }
+        
+        .progress-indicator {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--chess-gold) 0%, #b8941f 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+         {
+            body {
+                background: white;
+                color: black;
+            }
+            .section-card {
+                background: white;
+                border: 1px solid #ccc;
+            }
+            .collapsible-content {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="chess-board-bg fixed inset-0 z-0"></div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center items-center mb-4">
+                <span class="chess-piece mr-2">♔</span>
+                <h1 class="title-font text-4xl font-bold gold-accent">Chess OBIT Game Review</h1>
+                <span class="chess-piece ml-2">♛</span>
+            </div>
+            <p class="text-gray-300 text-lg">Openings • Blunders • Interesting • Takeaway</p>
+            <div class="mt-4">
+                <div class="progress-indicator">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Complete each section to track your progress</p>
+            </div>
+        </div>
 
+        <!-- OBIT Method Explanation -->
+        <div class="section-card rounded-lg p-6 mb-8">
+            <h2 class="title-font text-2xl font-semibold gold-accent mb-4 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                About the OBIT Method
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="font-semibold gold-accent">Openings</h3>
+                        <p class="text-gray-300">Review and update your opening repertoire to the first move you would have played differently.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold gold-accent">Blunders</h3>
+                        <p class="text-gray-300">Analyze game-deciding mistakes and identify common themes in your errors.</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="font-semibold gold-accent">Interesting</h3>
+                        <p class="text-gray-300">Examine confusing positions where you spent extra time thinking.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold gold-accent">Takeaway</h3>
+                        <p class="text-gray-300">Identify your single biggest lesson from the game.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Details -->
+        <div class="section-card rounded-lg p-6 mb-6">
+            <h2 class="title-font text-2xl font-semibold gold-accent mb-6 flex items-center">
+                <i class="fas fa-chess-board mr-2"></i>
+                Game Details
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Date</label>
+                    <input type="date" class="input-field w-full px-3 py-2 rounded-md" id="gameDate">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Opponent</label>
+                    <input type="text" placeholder="Opponent name" class="input-field w-full px-3 py-2 rounded-md" id="opponent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Time Control</label>
+                    <input type="text" placeholder="e.g., 5+0, 10+5" class="input-field w-full px-3 py-2 rounded-md" id="timeControl">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Result</label>
+                    <select class="input-field w-full px-3 py-2 rounded-md" id="result">
+                        <option value="">Select result</option>
+                        <option value="win">Win</option>
+                        <option value="loss">Loss</option>
+                        <option value="draw">Draw</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium mb-2">Rating (You / Opponent)</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Your rating" class="input-field flex-1 px-3 py-2 rounded-md" id="myRating">
+                    <span class="self-center text-gray-400">/</span>
+                    <input type="number" placeholder="Opponent rating" class="input-field flex-1 px-3 py-2 rounded-md" id="oppRating">
+                </div>
+            </div>
+        </div>
+
+        <!-- Openings Section -->
+        <div class="section-card rounded-lg p-6 mb-6">
+            <button class="w-full text-left" onclick="toggleSection('openings')">
+                <h2 class="title-font text-2xl font-semibold gold-accent mb-4 flex items-center justify-between">
+                    <span><i class="fas fa-chess-pawn mr-2"></i>Openings</span>
+                    <i class="fas fa-chevron-down transition-transform" id="openings-icon"></i>
+                </h2>
+            </button>
+            <div class="collapsible-content" id="openings-content">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Opening Played</label>
+                        <input type="text" placeholder="e.g., Sicilian Defense, Italian Game" class="input-field w-full px-3 py-2 rounded-md" id="openingPlayed">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">First Move You'd Play Differently</label>
+                        <input type="text" placeholder="Move notation and position" class="input-field w-full px-3 py-2 rounded-md" id="firstDifferentMove">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Opening Analysis & Updates</label>
+                        <textarea rows="4" placeholder="What did you learn about this opening? What needs to be updated in your repertoire?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="openingAnalysis"></textarea>
+                    </div>
+                    <div class="bg-yellow-900 bg-opacity-30 border border-yellow-600 rounded-md p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">Guiding Questions:</h4>
+                        <ul class="text-sm text-yellow-200 space-y-1">
+                            <li>• Did you follow your prepared lines?</li>
+                            <li>• Where did you deviate from theory or your repertoire?</li>
+                            <li>• What opening knowledge gaps were exposed?</li>
+                            <li>• How can you improve your preparation for this opening?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blunders Section -->
+        <div class="section-card rounded-lg p-6 mb-6">
+            <button class="w-full text-left" onclick="toggleSection('blunders')">
+                <h2 class="title-font text-2xl font-semibold gold-accent mb-4 flex items-center justify-between">
+                    <span><i class="fas fa-exclamation-triangle mr-2"></i>Blunders</span>
+                    <i class="fas fa-chevron-down transition-transform" id="blunders-icon"></i>
+                </h2>
+            </button>
+            <div class="collapsible-content" id="blunders-content">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Major Blunders (Move notation)</label>
+                        <input type="text" placeholder="e.g., 15. Nxf7??, 23. Qxg7+??" class="input-field w-full px-3 py-2 rounded-md" id="majorBlunders">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Blunder Analysis</label>
+                        <textarea rows="4" placeholder="What caused each blunder? What was the correct move?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="blunderAnalysis"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Common Themes/Patterns</label>
+                        <textarea rows="3" placeholder="Are there recurring patterns in your mistakes? Time pressure? Tactical oversights?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="blunderPatterns"></textarea>
+                    </div>
+                    <div class="bg-red-900 bg-opacity-30 border border-red-600 rounded-md p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">Guiding Questions:</h4>
+                        <ul class="text-sm text-red-200 space-y-1">
+                            <li>• What type of mistake was it? (Tactical, positional, time pressure)</li>
+                            <li>• Did you consider your opponent's threats?</li>
+                            <li>• Were you calculating forcing moves properly?</li>
+                            <li>• Is this a recurring pattern in your games?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interesting Section -->
+        <div class="section-card rounded-lg p-6 mb-6">
+            <button class="w-full text-left" onclick="toggleSection('interesting')">
+                <h2 class="title-font text-2xl font-semibold gold-accent mb-4 flex items-center justify-between">
+                    <span><i class="fas fa-lightbulb mr-2"></i>Interesting Moments</span>
+                    <i class="fas fa-chevron-down transition-transform" id="interesting-icon"></i>
+                </h2>
+            </button>
+            <div class="collapsible-content" id="interesting-content">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Key Position (Move number/notation)</label>
+                        <input type="text" placeholder="e.g., After 18. Bd5, position after 25...Rxf2" class="input-field w-full px-3 py-2 rounded-md" id="keyPosition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Why This Position Was Confusing</label>
+                        <textarea rows="3" placeholder="What made this position difficult? Multiple candidate moves? Complex tactics?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="whyConfusing"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">What You Played vs. Best Move</label>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="What you played" class="input-field px-3 py-2 rounded-md" id="yourMove">
+                            <input type="text" placeholder="Engine best move" class="input-field px-3 py-2 rounded-md" id="bestMove">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Analysis & Learning</label>
+                        <textarea rows="4" placeholder="What did you learn from analyzing this position? How will this help in future games?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="positionAnalysis"></textarea>
+                    </div>
+                    <div class="bg-blue-900 bg-opacity-30 border border-blue-600 rounded-md p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Guiding Questions:</h4>
+                        <ul class="text-sm text-blue-200 space-y-1">
+                            <li>• What were the candidate moves you considered?</li>
+                            <li>• What key factors did you miss in your evaluation?</li>
+                            <li>• How could you have approached this position differently?</li>
+                            <li>• What similar positions should you study?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Takeaway Section -->
+        <div class="section-card rounded-lg p-6 mb-8">
+            <button class="w-full text-left" onclick="toggleSection('takeaway')">
+                <h2 class="title-font text-2xl font-semibold gold-accent mb-4 flex items-center justify-between">
+                    <span><i class="fas fa-star mr-2"></i>Key Takeaway</span>
+                    <i class="fas fa-chevron-down transition-transform" id="takeaway-icon"></i>
+                </h2>
+            </button>
+            <div class="collapsible-content" id="takeaway-content">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Single Biggest Lesson</label>
+                        <textarea rows="3" placeholder="What is the one most important thing you learned from this game?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="biggestLesson"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Action Items</label>
+                        <textarea rows="3" placeholder="What specific things will you work on based on this game?" class="input-field w-full px-3 py-2 rounded-md resize-none" id="actionItems"></textarea>
+                    </div>
+                    <div class="bg-green-900 bg-opacity-30 border border-green-600 rounded-md p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Guiding Questions:</h4>
+                        <ul class="text-sm text-green-200 space-y-1">
+                            <li>• What is the most important pattern or concept you learned?</li>
+                            <li>• How will you prevent similar mistakes in future games?</li>
+                            <li>• What aspect of your game needs the most attention?</li>
+                            <li>• What will you study or practice next?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-4 justify-center mb-8">
+            <button onclick="clearForm()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition duration-300 flex items-center">
+                <i class="fas fa-refresh mr-2"></i>
+                Clear Form
+            </button>
+            <button onclick="saveToLocal()" class="px-6 py-3 btn-primary rounded-lg transition duration-300 flex items-center">
+                <i class="fas fa-save mr-2"></i>
+                Save Review
+            </button>
+            <button onclick="copyTemplate()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-300 flex items-center">
+                <i class="fas fa-copy mr-2"></i>
+                Copy as Text
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-gray-400 text-sm">
+            <p>Remember: "Writing an obituary for the game" - OBIT Method</p>
+            <p class="mt-2">© Chess OBIT Review Template</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const fields = [
+                'gameDate', 'opponent', 'timeControl', 'result',
+                'openingPlayed', 'blunderAnalysis', 'keyPosition', 'biggestLesson'
+            ];
+            
+            let completed = 0;
+            fields.forEach(field => {
+                if (document.getElementById(field)?.value.trim()) {
+                    completed++;
+                }
+            });
+            
+            const percentage = (completed / fields.length) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        // Toggle sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + '-content');
+            const icon = document.getElementById(sectionId + '-icon');
+            
+            content.classList.toggle('active');
+            icon.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Initialize all sections as collapsed
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = ['openings', 'blunders', 'interesting', 'takeaway'];
+            sections.forEach(section => {
+                const content = document.getElementById(section + '-content');
+                const icon = document.getElementById(section + '-icon');
+                content.classList.add('active'); // Start expanded for better UX
+            });
+            
+            // Add event listeners for progress tracking
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateProgress);
+            });
+        });
+
+        // Clear form
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all fields?')) {
+                document.querySelectorAll('input, textarea, select').forEach(element => {
+                    element.value = '';
+                });
+                updateProgress();
+            }
+        }
+
+        // Save to localStorage
+        function saveToLocal() {
+            const data = {};
+            document.querySelectorAll('input, textarea, select').forEach(element => {
+                if (element.id) {
+                    data[element.id] = element.value;
+                }
+            });
+            
+            const timestamp = new Date().toISOString();
+            const key = `chess-obit-${timestamp}`;
+            localStorage.setItem(key, JSON.stringify(data));
+            
+            alert('Game review saved locally!');
+        }
+
+        // Copy as formatted text
+        function copyTemplate() {
+            const data = {};
+            document.querySelectorAll('input, textarea, select').forEach(element => {
+                if (element.id) {
+                    data[element.id] = element.value || '[Not filled]';
+                }
+            });
+
+            const template = `
+CHESS OBIT GAME REVIEW
+======================
+
+GAME DETAILS
+Date: ${data.gameDate}
+Opponent: ${data.opponent}
+Time Control: ${data.timeControl}
+Result: ${data.result}
+Rating: ${data.myRating} vs ${data.oppRating}
+
+OPENINGS
+Opening Played: ${data.openingPlayed}
+First Different Move: ${data.firstDifferentMove}
+Analysis: ${data.openingAnalysis}
+
+BLUNDERS
+Major Blunders: ${data.majorBlunders}
+Analysis: ${data.blunderAnalysis}
+Patterns: ${data.blunderPatterns}
+
+INTERESTING
+Key Position: ${data.keyPosition}
+Why Confusing: ${data.whyConfusing}
+Your Move: ${data.yourMove}
+Best Move: ${data.bestMove}
+Analysis: ${data.positionAnalysis}
+
+TAKEAWAY
+Biggest Lesson: ${data.biggestLesson}
+Action Items: ${data.actionItems}
+            `;
+
+            navigator.clipboard.writeText(template.trim()).then(() => {
+                alert('Review copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDoEO0e1EDGHKYxQ5POdrSGDWgGAbnyTiuGpZk1xqzqbMKSC6IHT8u3Dbvhwg%2BBVkq3vvCkS0JLJsdPE21J5wcNLBqDxDcURxUco9a0RO7th6PltUd45%2BjMRlkOGSjFi%2Fx33YTs2n5oMz%2F9s2F4gnZOszzu47NTuYYll1Bw9xCt1vg%2BsUxZrOsxHTfrennKuR5KAIwF3Az%2FMmZGwm%2F2ey4g2jg0B7Nhk%2FzShdz2Esh8EQtAzXbXjb9cDb5B3GEjInUq1AkPOaQPcnIKAfIAH%2BxTk73wk0kCC5qlG9d8v9Rggtq%2BXrVLzVHn7S4gjOAupjJsp3gXrGQCACDIykzF%2BCW%2BQabH9NMyZuSulZOXtHllSwOTrb%2FEHQZDrjCDLcwE3rIvDyDrc6CzNqXT6cy3Q46LNw1AQQ7hMq%2FW93TtZmrMj532bxC7cKNlkwTg8aGF2%2BHRe%2BdW%2B40ueFBiy7Iebo486svSqKZbgo4OnksumL3FR17WUd9NQUJwRkHj36NtNfqQKjJK83wEhCPT%2BS9Md%2FU2o%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDoEO0e1EDGHKYxQ5POdrSGDWgGAbnyTiuGpZk1xqzqbMKSC6IHT8u3Dbvhwg+BVkq3vvCkS0JLJsdPE21J5wcNLBqDxDcURxUco9a0RO7th6PltUd45+jMRlkOGSjFi/x33YTs2n5oMz/9s2F4gnZOszzu47NTuYYll1Bw9xCt1vg+sUxZrOsxHTfrennKuR5KAIwF3Az/MmZGwm/2ey4g2jg0B7Nhk/zShdz2Esh8EQtAzXbXjb9cDb5B3GEjInUq1AkPOaQPcnIKAfIAH+xTk73wk0kCC5qlG9d8v9Rggtq+XrVLzVHn7S4gjOAupjJsp3gXrGQCACDIykzF+CW+QabH9NMyZuSulZOXtHllSwOTrb/EHQZDrjCDLcwE3rIvDyDrc6CzNqXT6cy3Q46LNw1AQQ7hMq/W93TtZmrMj532bxC7cKNlkwTg8aGF2+HRe+dW+40ueFBiy7Iebo486svSqKZbgo4OnksumL3FR17WUd9NQUJwRkHj36NtNfqQKjJK83wEhCPT+S9Md/U2o=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
